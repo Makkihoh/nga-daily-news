@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NGA 国际新闻速报 - 2026年3月13日</title>
+<style>
+:root{
+  --bg:#F0EAD6;
+  --row-white:#FFFDF5;
+  --row-tint:#F5F0E0;
+  --card-hover:#FFF8E8;
+  --border:#D5CAB1;
+  --border-light:#E0D6C0;
+  --accent:#486A84;
+  --accent-dark:#2B3E50;
+  --hot:#C0392B;
+  --warm:#D4780A;
+  --green:#27763D;
+  --text:#333333;
+  --text-dim:#555555;
+  --text-muted:#888888;
+  --tag-bg:rgba(72,106,132,0.1);
+  --link:#3B5998;
+  --head-bg:#7EB4A0;
+  --head-dark:#5A9A82;
+  --tab-bg:#E8E0CC;
+  --table-head:#8FC0A8
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:14px}
+
+/* === BANNER TABS === */
+.banner{background:var(--tab-bg);border-bottom:1px solid var(--border)}
+.banner-inner{max-width:880px;margin:0 auto;padding:0 16px}
+.banner-tabs{display:flex;gap:0;border-bottom:none}
+.banner-tab{padding:8px 18px;font-size:13px;color:var(--text-dim);background:var(--tab-bg);border:1px solid var(--border);border-bottom:none;border-radius:4px 4px 0 0;cursor:pointer;margin-right:-1px;position:relative;top:1px}
+.banner-tab.active{background:var(--row-white);color:var(--text);font-weight:700;border-bottom:1px solid var(--row-white);z-index:1}
+
+/* === HEADER (横排布局) === */
+.header{background:url('img/nga_banner.png') center/cover no-repeat;padding:0;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(43,62,80,0.82) 0%,rgba(52,73,94,0.75) 50%,rgba(72,106,132,0.7) 100%);pointer-events:none}
+.header-content{max-width:880px;margin:0 auto;padding:28px 24px 22px;display:flex;align-items:center;gap:24px;position:relative;z-index:1}
+.header-logo{width:80px;height:80px;border-radius:12px;background:rgba(255,255,255,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;border:2px solid rgba(232,200,114,0.35);box-shadow:0 2px 8px rgba(0,0,0,0.15);backdrop-filter:blur(4px)}
+.header-logo .nga-text{font-size:22px;font-weight:900;color:#E8C872;letter-spacing:1px;line-height:1}
+.header-logo .nga-cn{font-size:9px;color:rgba(255,255,255,0.7);margin-top:3px;letter-spacing:0.5px}
+.header-info{flex:1}
+.header-info h1{font-size:22px;font-weight:700;color:#fff;letter-spacing:1px;text-shadow:0 1px 3px rgba(0,0,0,0.3);margin-bottom:4px}
+.header-info .sub{font-size:13px;color:rgba(255,255,255,0.65);letter-spacing:0.3px}
+.header-stats{display:flex;gap:16px;flex-shrink:0}
+.header-stat{text-align:center;background:rgba(255,255,255,0.1);border:1px solid rgba(232,200,114,0.3);border-radius:8px;padding:10px 16px;min-width:72px;backdrop-filter:blur(4px)}
+.header-stat .val{font-size:22px;font-weight:800;color:#E8C872;text-shadow:0 0 8px rgba(232,200,114,0.2)}
+.header-stat .label{font-size:10px;color:rgba(255,255,255,0.55);letter-spacing:0.5px;margin-top:1px}
+
+/* === CONTENT === */
+.container{max-width:880px;margin:0 auto;padding:20px 16px 40px}
+
+.section-head{font-size:14px;font-weight:700;color:#fff;margin:20px 0 12px;padding:8px 14px;background:linear-gradient(135deg,var(--accent-dark),var(--accent));border-radius:4px;display:flex;align-items:center;gap:8px}
+.section-head .dot{width:5px;height:5px;border-radius:50%;background:#E8C872;flex-shrink:0}
+
+.overview{background:var(--row-white);border:1px solid var(--border-light);border-radius:6px;padding:20px 22px;margin-bottom:20px}
+.overview h3{font-size:14px;color:var(--accent-dark);margin-bottom:10px;font-weight:700;padding-bottom:8px;border-bottom:1px solid var(--border-light)}
+.overview ul{list-style:none;padding:0}
+.overview li{padding:4px 0 4px 18px;position:relative;font-size:13px;color:var(--text-dim);line-height:1.8}
+.overview li::before{content:'\25B8';position:absolute;left:2px;color:var(--warm);font-size:11px}
+.overview li strong{color:var(--text)}
+
+/* Cards */
+.card{border:1px solid var(--border-light);border-radius:6px;margin-bottom:10px;overflow:hidden;transition:all .2s;background:var(--row-white)}
+.card:hover{border-color:var(--accent);box-shadow:0 2px 8px rgba(72,106,132,0.12);background:var(--card-hover)}
+.card-inner{padding:18px 20px}
+.card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.rank{min-width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;border:1px solid}
+.rank.r1{background:#FFF0F0;color:var(--hot);border-color:#FFCCCC}
+.rank.r2{background:#FFF0F0;color:var(--hot);border-color:#FFCCCC}
+.rank.r3{background:#FFF0F0;color:var(--hot);border-color:#FFCCCC}
+.rank.normal{background:var(--row-tint);color:var(--accent);border-color:var(--border)}
+.card-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.5;flex:1}
+.card-title a{color:var(--link);text-decoration:none}
+.card-title a:hover{color:var(--hot);text-decoration:underline}
+.meta{display:flex;gap:12px;font-size:12px;color:var(--text-muted);margin-bottom:10px;flex-wrap:wrap;align-items:center}
+.meta .replies{color:var(--warm);font-weight:700}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.tag{font-size:10.5px;padding:2px 9px;border-radius:3px;font-weight:600;letter-spacing:0.3px}
+.tag.hot{background:#FFE5E5;color:var(--hot);border:1px solid #FFCCCC}
+.tag.warm{background:#FFF2DC;color:var(--warm);border:1px solid #F0D8A8}
+.tag.blue{background:rgba(72,106,132,0.08);color:var(--accent);border:1px solid rgba(72,106,132,0.2)}
+.tag.green{background:#E5F3E8;color:var(--green);border:1px solid #B8D8BE}
+
+.summary{font-size:13px;color:var(--text-dim);line-height:1.85;padding:12px 14px;background:var(--row-tint);border-radius:4px;border-left:3px solid var(--border)}
+.summary .key-point{color:var(--text);font-weight:700}
+
+.comments-toggle{margin-top:8px}
+.comments-toggle summary{cursor:pointer;font-size:12px;color:var(--accent);padding:6px 12px;border-radius:4px;background:var(--row-tint);border:1px solid var(--border-light);transition:all .15s;user-select:none;list-style:none;display:flex;align-items:center;gap:6px}
+.comments-toggle summary::-webkit-details-marker{display:none}
+.comments-toggle summary::before{content:'';display:inline-block;width:0;height:0;border-left:5px solid var(--accent);border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;transition:transform .2s;flex-shrink:0}
+.comments-toggle[open] summary::before{transform:rotate(90deg)}
+.comments-toggle summary:hover{background:#E8E0CC;border-color:var(--accent)}
+.comments-toggle summary .comment-count{font-size:10px;color:var(--text-muted);margin-left:auto}
+.comments-body{padding:10px 0 2px;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+.comment{font-size:12.5px;color:var(--text-dim);padding:7px 10px;margin-bottom:4px;border-radius:4px;background:var(--row-white);border:1px solid var(--border-light);border-left:3px solid var(--border);line-height:1.6;position:relative;padding-right:48px}
+.comment .score{position:absolute;top:7px;right:8px;font-size:10px;color:var(--accent);font-weight:700}
+.comment:hover{background:var(--row-tint);border-left-color:var(--accent)}
+.comment .cnum{font-size:10px;color:var(--text-muted);opacity:0.6;margin-right:5px}
+
+.no-comments{font-size:12px;color:var(--text-muted);opacity:0.6;padding:8px 14px;margin-top:8px;font-style:italic}
+
+.footer{text-align:center;padding:28px 20px;color:var(--text-muted);font-size:11px;border-top:1px solid var(--border);letter-spacing:0.3px;background:var(--tab-bg)}
+.footer a{color:var(--link);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+.footer p+p{margin-top:3px}
+
+@media(max-width:640px){
+  .header-content{flex-direction:column;text-align:center;gap:14px}
+  .header-stats{justify-content:center}
+  .header-logo{width:64px;height:64px}
+  .header-logo .nga-text{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="banner">
+  <div class="banner-inner">
+    <div class="banner-tabs">
+      <div class="banner-tab active">国际新闻</div>
+      <div class="banner-tab">热帖精选</div>
+      <div class="banner-tab">每日速报</div>
+    </div>
+  </div>
+</div>
+<div class="header">
+  <div class="header-content">
+    <div class="header-logo">
+      <span class="nga-text">NGA</span>
+      <span class="nga-cn">国际新闻</span>
+    </div>
+    <div class="header-info">
+      <h1>NGA 国际新闻速报</h1>
+      <div class="sub">2026 年 3 月 13 日 星期五 | NGA 国际新闻杂谈板块 (fid=843)</div>
+    </div>
+    <div class="header-stats">
+      <div class="header-stat"><div class="val">10</div><div class="label">热点话题</div></div>
+      <div class="header-stat"><div class="val">200</div><div class="label">总讨论</div></div>
+      <div class="header-stat"><div class="val">6</div><div class="label">涉及领域</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="section-head"><div class="dot"></div>今日要闻速览</div>
+<div class="overview">
+  <h3>国际局势摘要</h3>
+  <ul>
+    <li><strong>美国政治动荡</strong> -- 中期选举开战，民主党在多个深红州意外翻盘，战争民意反噬特朗普</li>
+    <li><strong>美伊战争持续</strong> -- 林肯号航母据传已失去战斗能力返回美国；伊朗游行遭美军轰炸，民众举着染血国旗继续前行</li>
+    <li><strong>中东乱局</strong> -- 黎巴嫩裔美国人驾卡车冲撞犹太会堂复仇；霍尔木兹海峡局势引发大国博弈猜测</li>
+    <li><strong>日本动态</strong> -- 签证费大涨5倍；自卫队接收战斧和JSM巡航导弹；日本"赢学"思维引发群嘲</li>
+    <li><strong>信息战与民间</strong> -- 全球网友在社交媒体上给伊朗出谋划策，"美国失道寡助"成共识</li>
+    <li><strong>奇闻趣事</strong> -- 以色列防空洞内开设特殊"服务场所"，网友调侃"千年种族传统艺能"</li>
+  </ul>
+</div>
+
+<div class="section-head"><div class="dot"></div>热帖详情 &amp; 精选评论</div>
+
+<!-- #1 美中期选举 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank r1">1</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46364698" target="_blank">美中期选举开战，民主党在数个深红州翻盘</a></div>
+    </div>
+    <div class="meta"><span>cuipanguan2021</span><span class="replies">29 回复</span></div>
+    <div class="tags"><span class="tag hot">最热</span><span class="tag blue">美国政治</span><span class="tag blue">中期选举</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>美国中期选举初步开票，民主党在数个传统深红州出现翻盘趋势。分析认为特朗普发动伊朗战争导致的民意反弹正在显现。网友评价"屎味的粑粑和粑粑味的屎选一坨"，反映了对美国两党政治的普遍失望。也有人提醒可能是"先开城市票偏蓝"的老套路，最终结果待观察。
+    </div>
+    <details class="comments-toggle">
+      <summary>查看精选评论 <span class="comment-count">10 条</span></summary>
+      <div class="comments-body">
+        <div class="comment"><span class="cnum">#1</span>"屎味的粑粑和粑粑味的屎选一坨呗。" <span class="score">+41</span></div>
+        <div class="comment"><span class="cnum">#2</span>"美帝人民真可怜，不吃屎都不行" <span class="score">+16</span></div>
+        <div class="comment"><span class="cnum">#3</span>"蝇麻了" <span class="score">+15</span></div>
+        <div class="comment"><span class="cnum">#4</span>"你仔细看看，哪里提到了巧克力" <span class="score">+7</span></div>
+        <div class="comment"><span class="cnum">#5</span>"川普可不会老老实实的跛脚，中期选举前肯定还会搞个大的" <span class="score">+6</span></div>
+        <div class="comment"><span class="cnum">#6</span>"奶龙现在背书，很难说是起正面还是反面作用" <span class="score">+4</span></div>
+        <div class="comment"><span class="cnum">#7</span>"假如川普不要这么随便发动伊朗战争，局面不会这么恶劣的" <span class="score">+4</span></div>
+        <div class="comment"><span class="cnum">#8</span>"如果本身就是个粪坑，那不是哪边都有巧克力吃？这是好事啊！" <span class="score">+1</span></div>
+        <div class="comment"><span class="cnum">#9</span>"可能是驴党外宣，大选开票也是先蓝再红。因为开票先开城市票，城市票一般偏蓝" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#10</span>"懂王上轰炸机吧，炸飞这些刁民" <span class="score">+0</span></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- #2 伊朗12日停火 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank r2">2</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46364723" target="_blank">这么看去年伊朗12日停火难道真的是哈梅内伊导致的？</a></div>
+    </div>
+    <div class="meta"><span>我的我的不祥之刃</span><span class="replies">28 回复</span></div>
+    <div class="tags"><span class="tag hot">超热</span><span class="tag blue">伊朗</span><span class="tag blue">中东局势</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>楼主反思去年伊朗12日停火事件，讨论哈梅内伊在其中扮演的角色。帖子引发对伊朗决策层和中东和平进程的深度讨论，回复量高达28条。
+    </div>
+    <div class="no-comments">* 评论数据因 JSON 格式问题未能完整获取</div>
+  </div>
+</div>
+
+<!-- #3 黎巴嫩裔冲犹太会堂 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank r3">3</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46364452" target="_blank">一名黎巴嫩裔美国公民为了帮家人复仇，开着卡车冲进了当地的犹太会堂</a></div>
+    </div>
+    <div class="meta"><span>斯麦路超人</span><span class="replies">28 回复</span></div>
+    <div class="tags"><span class="tag hot">冲击</span><span class="tag blue">美国</span><span class="tag blue">中东冲突外溢</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>一名黎巴嫩裔美国公民因家人在以色列空袭中丧生（两个孩子、兄弟和侄子），驾驶卡车冲入美国当地犹太会堂进行报复。事件标志中东战火以个人复仇方式向美国本土蔓延。热评指出"还是太脑子热了，该杀的不是那些小兵小卒"，也有人感慨战争对普通人命运的碾压。
+    </div>
+    <details class="comments-toggle">
+      <summary>查看精选评论 <span class="comment-count">5 条</span></summary>
+      <div class="comments-body">
+        <div class="comment"><span class="cnum">#1</span>"还是太脑子热了，该杀的不是那些小兵小卒，要干就要干票大的" <span class="score">+47</span></div>
+        <div class="comment"><span class="cnum">#2</span>"犹太人全民皆兵？" <span class="score">+11</span></div>
+        <div class="comment"><span class="cnum">#3</span>[图片 - 遇难家属照片] <span class="score">+46</span></div>
+        <div class="comment"><span class="cnum">#4</span>"这是他的在以色列空袭丧生的两个孩子、兄弟和侄子。" <span class="score">+46</span></div>
+        <div class="comment"><span class="cnum">#5</span>"谁不可怜呢，但战争就是这样残酷" <span class="score">+0</span></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- #4 林肯号 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank normal">4</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46364730" target="_blank">啊？林肯号已经失去战斗能力回美国了？</a></div>
+    </div>
+    <div class="meta"><span>断爪比约恩</span><span class="replies">21 回复</span></div>
+    <div class="tags"><span class="tag warm">热门</span><span class="tag blue">美军</span><span class="tag blue">航母</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>伊朗方面多家官方媒体（IRIB、IRNA、Press TV）发布消息称美军林肯号航母已失去战斗能力，正在返回美国。美方暂无回应。网友推测可能被伊朗小型攻击艇或自爆船命中，质疑"吹上天的密集阵"是否为样子货。也有人认为这可能是伊朗心理战。
+    </div>
+    <details class="comments-toggle">
+      <summary>查看精选评论 <span class="comment-count">10 条</span></summary>
+      <div class="comments-body">
+        <div class="comment"><span class="cnum">#1</span>"如果是假的……如果是真的……" <span class="score">+6</span></div>
+        <div class="comment"><span class="cnum">#2</span>"多半是来了一大群小摩托，漏了一个" <span class="score">+6</span></div>
+        <div class="comment"><span class="cnum">#3</span>"伊朗方面发布该消息的单位有：IRIB、伊朗武装部队司令部、IRNA、Press TV。美国方面暂无回应" <span class="score">+4</span></div>
+        <div class="comment"><span class="cnum">#4</span>"我严重怀疑当年吹上天的密集阵也是个样子货。飞的这么慢的小摩托都搞不定" <span class="score">+3</span></div>
+        <div class="comment"><span class="cnum">#5</span>"就是赌定了他们不敢应战，随便造他的谣" <span class="score">+3</span></div>
+        <div class="comment"><span class="cnum">#6</span>"懂子，你要是没事就走两步！" <span class="score">+1</span></div>
+        <div class="comment"><span class="cnum">#7</span>"真假的航母这么大吨位，在海上跑了一周左右能从波斯湾跑回美国本土吗" <span class="score">+1</span></div>
+        <div class="comment"><span class="cnum">#8</span>"注意，说的是被海军打跑的。小摩托显然不是海军的。不会是那个自爆船吧。" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#9</span>"也许是后撤步跳投跳到本方半场了" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#10</span>"刷抖音的时候好像看到央视网转发伊朗的这条新闻了" <span class="score">+0</span></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- #5 日本签证涨价 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank normal">5</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46364504" target="_blank">从4月1日起日本签证费涨价</a></div>
+    </div>
+    <div class="meta"><span>千早钢板</span><span class="replies">20 回复</span></div>
+    <div class="tags"><span class="tag blue">日本</span><span class="tag blue">签证</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>日本签证费自4月1日起大幅涨价，据传涨幅约5倍，单次签证费将达到约1000元人民币（已接近美国10年签证的1300元）。消息去年已有预告但大使馆迟迟未公布具体金额。网友反应两极 -- 有人吐槽"现在这时候还想去的慕洋犬有钱就让它们多花"，也有人考证发现换算下来实际涨幅可能没那么夸张。
+    </div>
+    <details class="comments-toggle">
+      <summary>查看精选评论 <span class="comment-count">10 条</span></summary>
+      <div class="comments-body">
+        <div class="comment"><span class="cnum">#1</span>"没事，我等不要签证了再去，当年我爷爷就是这么去的汉城" <span class="score">+44</span></div>
+        <div class="comment"><span class="cnum">#2</span>"没事，现在这个时候还想去苟日的那边的慕洋犬有钱，就让它们多花挺好的" <span class="score">+40</span></div>
+        <div class="comment"><span class="cnum">#3</span>"看不起谁呢？再涨10倍！上赶着去日子的人都不差钱。" <span class="score">+8</span></div>
+        <div class="comment"><span class="cnum">#4</span>"对比了一下，由于某种原因，换算下来还低了咧" <span class="score">+5</span></div>
+        <div class="comment"><span class="cnum">#5</span>"罕见的人群还是要去的，双向奔赴吧" <span class="score">+5</span></div>
+        <div class="comment"><span class="cnum">#6</span>"和我月吃3000套1+1有什么卵关系？" <span class="score">+4</span></div>
+        <div class="comment"><span class="cnum">#7</span>"挺好啊，这情况还要去玩的何尝不是一种婊子配狗天长地久" <span class="score">+2</span></div>
+        <div class="comment"><span class="cnum">#8</span>"涨5倍后连精日都会嫌弃签证费贵，美国签证10年也只要1300多" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#9</span>"等解放军先去我再去" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#10</span>"在右翼鬼子没被打倒之前狗都不去那个屁国家" <span class="score">+0</span></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- #6 日本赢学 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank normal">6</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46364803" target="_blank">日本的赢学我真的是看不懂</a></div>
+    </div>
+    <div class="meta"><span>太郎古</span><span class="replies">20 回复</span></div>
+    <div class="tags"><span class="tag warm">热门</span><span class="tag green">趣闻</span><span class="tag blue">日本</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>楼主分享日本网络上的"赢学"发言（二战中日本的自我美化叙事），引发群嘲。网友辛辣点评"大本营战报都能宣称击沉企业号114514次，还有什么不能赢的"，并提到"流浪千年和独得两原，这种世界性大成就，真不是一般的民族能得的"。也有理性分析指出日本以其国土和人口规模确实打得很拼，但最终工业实力差距是决定性的。
+    </div>
+    <details class="comments-toggle">
+      <summary>查看精选评论 <span class="comment-count">10 条</span></summary>
+      <div class="comments-body">
+        <div class="comment"><span class="cnum">#1</span>"他这是在钓原子弹的回复么" <span class="score">+26</span></div>
+        <div class="comment"><span class="cnum">#2</span>"大本营战报都能宣称击沉企业号114514次，还有什么不能赢的" <span class="score">+13</span></div>
+        <div class="comment"><span class="cnum">#3</span>"流浪千年和独得两原，这种世界性大成就，真不是一般的贱民族能得的。" <span class="score">+13</span></div>
+        <div class="comment"><span class="cnum">#4</span>"法国人：哇塞我能单挑德三" <span class="score">+8</span></div>
+        <div class="comment"><span class="cnum">#5</span>"讲真按日本这个国土面积人口量，能多线打那么久确实挺猛的" <span class="score">+2</span></div>
+        <div class="comment"><span class="cnum">#6</span>"颇有詹密之风啊，整天灭霸灭霸，其实是被剃个光头" <span class="score">+1</span></div>
+        <div class="comment"><span class="cnum">#7</span>"日本赢学属于内部逻辑闭环的那种，就算打破信息茧房也无济于事" <span class="score">+1</span></div>
+        <div class="comment"><span class="cnum">#8</span>"美国必胜的，工业实力碾压了。日本的军舰都是决战武器，美国的军舰都是消耗品。" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#9</span>"记得结束之后德语四十二天速成班报名表填一下" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#10</span>"只要他们肯出动自慰队向老钟发起攻击，我不介意帮着他们吹战力" <span class="score">+0</span></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- #7 日本自卫队战斧 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank normal">7</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46364894" target="_blank">日本自卫队已开始接收美制战斧和挪威制JSM巡航导弹</a></div>
+    </div>
+    <div class="meta"><span>frontwing</span><span class="replies">18 回复</span></div>
+    <div class="tags"><span class="tag blue">日本</span><span class="tag blue">军事</span><span class="tag blue">武器装备</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>日本自卫队已开始接收美国制造的战斧巡航导弹和挪威制JSM巡航导弹，标志着日本远程打击能力的显著提升。这是日本战后军事发展的重要节点，引发对东亚安全格局变化的讨论。
+    </div>
+    <div class="no-comments">* 评论数据因 JSON 格式问题未能完整获取</div>
+  </div>
+</div>
+
+<!-- #8 霍尔木兹海峡 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank normal">8</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46365171" target="_blank">立帖为证，霍尔木兹海峡近期能开且只有一个理由</a></div>
+    </div>
+    <div class="meta"><span>massssam</span><span class="replies">15 回复</span></div>
+    <div class="tags"><span class="tag blue">中东</span><span class="tag blue">大国博弈</span><span class="tag blue">能源</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>楼主预测霍尔木兹海峡可能在大国斡旋下暂停封锁。但评论区普遍不看好 -- "双方没有退路，伊朗死中求活"，且中俄两大国都乐见美伊继续消耗，"大国巴不得老美直接死那，我斡旋个锤子"。也有人分析开放海峡相当于缓了日本一口气，不符合大国利益。
+    </div>
+    <details class="comments-toggle">
+      <summary>查看精选评论 <span class="comment-count">10 条</span></summary>
+      <div class="comments-body">
+        <div class="comment"><span class="cnum">#1</span>"别闹，双方没有退路，伊朗死中求活，川皇认为赢不了了" <span class="score">+5</span></div>
+        <div class="comment"><span class="cnum">#2</span>"一直不开也有可能……大国准备这么久了，又是新能源又是和俄罗斯长协，等的就是这一天" <span class="score">+2</span></div>
+        <div class="comment"><span class="cnum">#3</span>"就鱿撒这信誉，老钟会给它们做保？？？" <span class="score">+2</span></div>
+        <div class="comment"><span class="cnum">#4</span>"伊朗跟大毛关系比较好，大毛是希望伊朗拖住霉国的" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#5</span>"全球三大国两个都希望美伊继续干，楼主的大国不会是屙三吧？" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#6</span>"最终幻想，又在幻想老中虎躯一震了" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#7</span>"老钟做保？送脸上门给鱿鱼打？" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#8</span>"大国：我巴不得老美直接死那，我斡旋个锤子" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#9</span>"确实不能说没有这种可能吧，但也没那么肯定。" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#10</span>"是你提了两箱牛奶去白宫斡旋吗" <span class="score">+0</span></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- #9 国外网友出谋划策 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank normal">9</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46364647" target="_blank">乐，国外网友也在给伊朗出谋划策。</a></div>
+    </div>
+    <div class="meta"><span>mketa6514</span><span class="replies">13 回复</span></div>
+    <div class="tags"><span class="tag warm">热门</span><span class="tag blue">国际舆论</span><span class="tag green">趣闻</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>楼主搬运了TikTok上外国网友给伊朗军事出谋划策的截图，包括分析爱国者防空系统部署弱点等。最高赞评论精辟总结："这不是伊朗得道多助，而是美国失道寡助。"同时"鱿鱼是一方有难，八方点赞"也成为热评。有人担心这些网友公开露脸可能被情报机构盯上。
+    </div>
+    <details class="comments-toggle">
+      <summary>查看精选评论 <span class="comment-count">7 条</span></summary>
+      <div class="comments-body">
+        <div class="comment"><span class="cnum">#1</span>"这不是伊朗得道多助，而是美国失道寡助。" <span class="score">+53</span></div>
+        <div class="comment"><span class="cnum">#2</span>"露脸啊，不怕磨砂的来找上门么" <span class="score">+37</span></div>
+        <div class="comment"><span class="cnum">#3</span>"鱿鱼是一方有难，八方点赞" <span class="score">+36</span></div>
+        <div class="comment"><span class="cnum">#4</span>[图片评论] <span class="score">+8</span></div>
+        <div class="comment"><span class="cnum">#5</span>"六枚拦截蛋需要八枚？一枚就够它拦的了" <span class="score">+4</span></div>
+        <div class="comment"><span class="cnum">#6</span>"中东战争烈度不行啊。前几年大毛前线士兵刚在网上装完逼后脚二毛家德导弹就送达了。" <span class="score">+1</span></div>
+        <div class="comment"><span class="cnum">#7</span>"爱国者需要卡车拖拽到位置后卸载设备……一般熟练操作人员部署也需要一小时以上" <span class="score">+0</span></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- #10 犹太人传统艺能 -->
+<div class="card">
+  <div class="card-inner">
+    <div class="card-top">
+      <div class="rank normal">10</div>
+      <div class="card-title"><a href="https://ngabbs.com/read.php?tid=46364701" target="_blank">犹太人传统艺能</a></div>
+    </div>
+    <div class="meta"><span>mketa6514</span><span class="replies">13 回复</span></div>
+    <div class="tags"><span class="tag green">趣闻</span><span class="tag blue">以色列</span></div>
+    <div class="summary">
+      <span class="key-point">要点：</span>有人发现以色列的防空洞内竟然开设了特殊"服务场所"。网友调侃"小偷、妓院、高利贷，人类最古老的三个行业鱿鱼占齐了，千年种族实锤"。帖子以黑色幽默的方式讽刺了以色列社会在战时的荒诞现象。
+    </div>
+    <details class="comments-toggle">
+      <summary>查看精选评论 <span class="comment-count">10 条</span></summary>
+      <div class="comments-body">
+        <div class="comment"><span class="cnum">#1</span>"犹太人放在古代应该是艹羊的，有了现代科学知识，怕感染布病，所以改了" <span class="score">+10</span></div>
+        <div class="comment"><span class="cnum">#2</span>"看啊亚空间生物" <span class="score">+7</span></div>
+        <div class="comment"><span class="cnum">#3</span>"是你阿嬷，而且她是自愿的" <span class="score">+7</span></div>
+        <div class="comment"><span class="cnum">#4</span>"据说犹太杂种对希特勒最大的不满是他手下制作的肥皂和毛毯售价特别低而且不给原材料提供商抽成" <span class="score">+7</span></div>
+        <div class="comment"><span class="cnum">#5</span>"小偷、妓院、高利贷，人类最古老的三个行业鱿鱼占齐了，千年种族实锤了" <span class="score">+1</span></div>
+        <div class="comment"><span class="cnum">#6</span>"犹太人含金量最高的好像是医药，但和其他种族的医生不一样，他们完全是为了钱" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#7</span>"这是犹太商人能干出的事，他们中出了个爱泼斯坦就能证明" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#8</span>"怪不得不让中国人进，鱿鱼在里面开银帕" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#9</span>"嗨，不过是麦银而已，我以为趁乱造肥皂呢。" <span class="score">+0</span></div>
+        <div class="comment"><span class="cnum">#10</span>"甚至床旁边还配了几个cuck chair" <span class="score">+0</span></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>NGA 国际新闻速报 (晚间版) | 自动生成于 2026-03-13 21:45</p>
+  <p>数据来源: <a href="https://ngabbs.com/thread.php?fid=843" target="_blank">NGA 国际新闻杂谈板块 (fid=843)</a></p>
+  <p style="margin-top:6px;opacity:0.6">本报告由 AI 自动抓取并总结，内容仅供参考</p>
+</div>
+</body>
+</html>

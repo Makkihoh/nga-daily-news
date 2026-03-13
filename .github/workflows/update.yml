@@ -1,0 +1,55 @@
+name: Update NGA Daily News
+
+on:
+  schedule:
+    # Run every 6 hours (UTC: 00:00, 06:00, 12:00, 18:00 → Beijing: 08:00, 14:00, 20:00, 02:00)
+    - cron: '0 0,6,12,18 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch NGA data and build HTML
+        env:
+          NGA_COOKIE: ${{ secrets.NGA_COOKIE }}
+        run: python scripts/fetch_and_build.py
+
+      - name: Verify output
+        run: |
+          echo "=== Checking index.html ==="
+          head -3 index.html
+          tail -3 index.html
+          echo "File size: $(wc -c < index.html) bytes"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
