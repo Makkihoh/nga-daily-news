@@ -46,6 +46,40 @@ def nga_request(url):
         return None
 
 
+def parse_nga_json(body):
+    """Parse NGA response body which may not be clean JSON.
+    NGA sometimes returns JS variable assignments or truncated JSON."""
+    if not body:
+        return None
+    # Strip BOM
+    body = body.strip().lstrip('\ufeff')
+    # Remove JS variable prefix like "window.script_muti_get_var_store=..."
+    # or "var data=..."
+    body = re.sub(r'^[a-zA-Z_][\w.]*\s*=\s*', '', body)
+    # Remove trailing semicolons
+    body = body.rstrip(';').strip()
+    try:
+        return json.loads(body)
+    except json.JSONDecodeError:
+        # Try to find the outermost JSON object
+        start = body.find('{')
+        if start >= 0:
+            # Find matching closing brace by counting
+            depth = 0
+            for i in range(start, len(body)):
+                if body[i] == '{':
+                    depth += 1
+                elif body[i] == '}':
+                    depth -= 1
+                    if depth == 0:
+                        try:
+                            return json.loads(body[start:i+1])
+                        except json.JSONDecodeError:
+                            break
+        print(f"  WARNING: Could not parse JSON response (len={len(body)})")
+        return None
+
+
 def clean_nga_html(text):
     """Strip HTML tags and NGA bbcode from content."""
     if not text:
@@ -74,7 +108,9 @@ def fetch_thread_list():
     if not body:
         return []
 
-    data = json.loads(body)
+    data = parse_nga_json(body)
+    if not data:
+        return []
     threads_raw = data.get("data", {}).get("__T", [])
 
     threads = []
@@ -109,7 +145,9 @@ def fetch_thread_detail(tid):
     if not body:
         return None, []
 
-    data = json.loads(body)
+    data = parse_nga_json(body)
+    if not data:
+        return None, []
     replies_raw = data.get("data", {}).get("__R", [])
 
     reply_list = []
