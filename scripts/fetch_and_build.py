@@ -143,11 +143,11 @@ def fetch_thread_detail(tid):
     url = f"https://bbs.nga.cn/read.php?tid={tid}&__output=11&page=1"
     body = nga_request(url)
     if not body:
-        return None, []
+        return None, [], []
 
     data = parse_nga_json(body)
     if not data:
-        return None, []
+        return None, [], []
     replies_raw = data.get("data", {}).get("__R", [])
 
     reply_list = []
@@ -157,6 +157,7 @@ def fetch_thread_detail(tid):
         reply_list = [v for v in replies_raw.values() if isinstance(v, dict)]
 
     main_content = ""
+    all_replies = []  # Keep all replies for summary fallback
     interesting = []
     first = True
     for r in reply_list:
@@ -165,6 +166,9 @@ def fetch_thread_detail(tid):
             main_content = content
             first = False
         else:
+            # Collect all non-trivial replies for summary building
+            if len(content) > 5:
+                all_replies.append(content)
             if 10 < len(content) < 500:
                 score = int(r.get("score", 0)) if r.get("score") else 0
                 interesting.append({
@@ -175,7 +179,7 @@ def fetch_thread_detail(tid):
                 })
 
     interesting.sort(key=lambda x: x["score"], reverse=True)
-    return main_content, interesting[:10]
+    return main_content, interesting[:10], all_replies
 
 
 # ── Step 3: Build HTML ─────────────────────────────────────────────────────
@@ -455,28 +459,59 @@ def main():
     for t in threads:
         tid = t["tid"]
         print(f"  Fetching thread #{t['rank']}: {t['subject'][:30]}... (tid={tid})")
-        main_content, top_replies = fetch_thread_detail(tid)
+        main_content, top_replies, all_replies = fetch_thread_detail(tid)
         t["main_content"] = main_content or ""
         t["top_replies"] = top_replies
-        # Build a meaningful summary from main content + top reply
-        summary = ""
+
+        # Debug logging
+        mc_len = len(main_content) if main_content else 0
+        print(f"    main_content length: {mc_len}, top_replies: {len(top_replies)}, all_replies: {len(all_replies)}")
         if main_content:
-            # Clean up and take first ~150 chars of main post
+            preview = main_content.replace('\n', ' ')[:80]
+            print(f"    main_content preview: {preview}")
+
+        # Build a meaningful summary using multi-level fallback
+        summary = ""
+
+        # Level 1: Use main post content (first 150 chars)
+        if main_content:
             s = main_content.replace('\n', ' ').strip()
             s = re.sub(r'\s+', ' ', s)
-            if len(s) > 150:
-                s = s[:147] + "..."
-            summary = s
+            # Filter out content that is just links or very short
+            if len(s) > 15:
+                if len(s) > 150:
+                    s = s[:147] + "..."
+                summary = s
+
+        # Level 2: If main content too short, combine top rated replies
         if not summary or len(summary) < 20:
-            # Fallback: use top reply content if main content is too short
-            if top_replies:
-                best = top_replies[0]["content"].replace('\n', ' ').strip()
-                best = re.sub(r'\s+', ' ', best)
-                if len(best) > 120:
-                    best = best[:117] + "..."
-                summary = (summary + " " + best).strip() if summary else best
-        if not summary:
+            for reply in top_replies[:3]:
+                rc = reply["content"].replace('\n', ' ').strip()
+                rc = re.sub(r'\s+', ' ', rc)
+                if len(rc) > 15:
+                    if len(rc) > 120:
+                        rc = rc[:117] + "..."
+                    summary = (summary + " | " + rc).strip(" |") if summary else rc
+                    if len(summary) >= 60:
+                        break
+
+        # Level 3: If still too short, use any reply content
+        if not summary or len(summary) < 20:
+            for rc in all_replies[:5]:
+                rc = rc.replace('\n', ' ').strip()
+                rc = re.sub(r'\s+', ' ', rc)
+                if len(rc) > 15:
+                    if len(rc) > 120:
+                        rc = rc[:117] + "..."
+                    summary = (summary + " | " + rc).strip(" |") if summary else rc
+                    if len(summary) >= 60:
+                        break
+
+        # Level 4: Last resort - use subject
+        if not summary or len(summary) < 10:
             summary = t["subject"]
+
+        print(f"    SUMMARY ({len(summary)} chars): {summary[:80]}...")
         t["summary"] = summary
         time.sleep(DELAY_SEC)
 
