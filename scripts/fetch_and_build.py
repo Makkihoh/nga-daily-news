@@ -258,7 +258,12 @@ def build_html(threads_data, now):
     # Build overview bullets from top threads
     overview_items = ""
     for t in threads_data[:6]:
-        overview_items += f'    <li><strong>{html_escape(t["subject"][:15])}...</strong> -- {html_escape(t["subject"])}</li>\n'
+        subj = html_escape(t["subject"])
+        # Show a short preview of summary if available
+        brief = html_escape(t.get("summary", t["subject"]))
+        if len(brief) > 60:
+            brief = brief[:57] + "..."
+        overview_items += f'    <li><strong>{subj}</strong> ({t["replies"]}回复) -- {brief}</li>\n'
 
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -453,7 +458,26 @@ def main():
         main_content, top_replies = fetch_thread_detail(tid)
         t["main_content"] = main_content or ""
         t["top_replies"] = top_replies
-        t["summary"] = t["subject"]  # Use subject as summary fallback
+        # Build a meaningful summary from main content + top reply
+        summary = ""
+        if main_content:
+            # Clean up and take first ~150 chars of main post
+            s = main_content.replace('\n', ' ').strip()
+            s = re.sub(r'\s+', ' ', s)
+            if len(s) > 150:
+                s = s[:147] + "..."
+            summary = s
+        if not summary or len(summary) < 20:
+            # Fallback: use top reply content if main content is too short
+            if top_replies:
+                best = top_replies[0]["content"].replace('\n', ' ').strip()
+                best = re.sub(r'\s+', ' ', best)
+                if len(best) > 120:
+                    best = best[:117] + "..."
+                summary = (summary + " " + best).strip() if summary else best
+        if not summary:
+            summary = t["subject"]
+        t["summary"] = summary
         time.sleep(DELAY_SEC)
 
     # Step 3: Generate HTML
