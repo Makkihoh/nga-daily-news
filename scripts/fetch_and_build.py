@@ -16,6 +16,7 @@ from datetime import datetime, timezone, timedelta
 # ── Config ──────────────────────────────────────────────────────────────────
 NGA_FID = 843
 NGA_COOKIE = os.environ.get("NGA_COOKIE", "")
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
 TOP_N = 10
 DELAY_SEC = 0.6
@@ -91,6 +92,49 @@ def clean_nga_html(text):
     s = s.replace('&quot;', '"').replace('&#39;', "'").replace('&nbsp;', ' ')
     s = re.sub(r'\[/?[a-zA-Z]+[^\]]*\]', '', s)
     return s.strip()
+
+
+def ai_summary(subject, content, top_replies):
+    """Call DeepSeek API to generate a concise summary."""
+    if not DEEPSEEK_API_KEY:
+        return None
+
+    # Build context: title + main content + top replies
+    context = f"帖子标题：{subject}\n"
+    if content:
+        context += f"楼主正文：{content[:800]}\n"
+    for i, r in enumerate(top_replies[:3]):
+        rc = r["content"][:200] if isinstance(r, dict) else str(r)[:200]
+        context += f"热评{i+1}：{rc}\n"
+
+    prompt = (
+        "你是一个新闻摘要助手。请根据以下论坛帖子信息，用1-2句话概括核心内容和讨论焦点。"
+        "要求：简洁有力，突出关键信息，不超过100字，不要用\"本帖\"\"该帖\"等词，直接说事。\n\n"
+        f"{context}"
+    )
+
+    body = json.dumps({
+        "model": "deepseek-chat",
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": 200,
+        "temperature": 0.3
+    }).encode("utf-8")
+
+    req = urllib.request.Request("https://api.deepseek.com/chat/completions")
+    req.add_header("Content-Type", "application/json")
+    req.add_header("Authorization", f"Bearer {DEEPSEEK_API_KEY}")
+
+    try:
+        with urllib.request.urlopen(req, body, timeout=30) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            result = data["choices"][0]["message"]["content"].strip()
+            # Remove quotes if the model wraps the response
+            result = result.strip('"').strip('"').strip('"')
+            print(f"    AI summary OK: {result[:60]}...")
+            return result
+    except Exception as e:
+        print(f"    AI summary FAILED: {e}")
+        return None
 
 
 def html_escape(text):
@@ -470,18 +514,22 @@ def main():
             preview = main_content.replace('\n', ' ')[:80]
             print(f"    main_content preview: {preview}")
 
-        # Build a meaningful summary using multi-level fallback
+        # Build summary: try AI first, then multi-level fallback
         summary = ""
 
+        # Level 0: AI summary via DeepSeek
+        if DEEPSEEK_API_KEY:
+            summary = ai_summary(t["subject"], main_content or "", top_replies) or ""
+
         # Level 1: Use main post content (first 150 chars)
-        if main_content:
-            s = main_content.replace('\n', ' ').strip()
-            s = re.sub(r'\s+', ' ', s)
-            # Filter out content that is just links or very short
-            if len(s) > 15:
-                if len(s) > 150:
-                    s = s[:147] + "..."
-                summary = s
+        if not summary or len(summary) < 10:
+            if main_content:
+                s = main_content.replace('\n', ' ').strip()
+                s = re.sub(r'\s+', ' ', s)
+                if len(s) > 15:
+                    if len(s) > 150:
+                        s = s[:147] + "..."
+                    summary = s
 
         # Level 2: If main content too short, combine top rated replies
         if not summary or len(summary) < 20:
