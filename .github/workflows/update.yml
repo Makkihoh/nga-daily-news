@@ -1,4 +1,4 @@
-name: Update NGA Daily News
+name: Update NGA Multi-Board News
 
 on:
   schedule:
