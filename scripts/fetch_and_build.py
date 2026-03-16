@@ -3,7 +3,7 @@
 NGA Multi-Board News Fetcher & HTML Builder
 Fetches top threads from multiple NGA boards, parses replies, and generates
 a static HTML page with Tab switching UI.
-Designed to run in GitHub Actions every 6 hours.
+Designed to run in GitHub Actions every 8 hours (Mon-Sat).
 
 Boards:
   - fid=843: International News (国际新闻杂谈)
@@ -567,7 +567,7 @@ body{{font-family:"Microsoft YaHei","PingFang SC",-apple-system,BlinkMacSystemFo
 
 <div class="footer">
   <p>NGA 综合速报 | 自动生成于 {now.strftime("%Y-%m-%d %H:%M")} (UTC+8)</p>
-{footer_links}  <p style="margin-top:6px;opacity:0.6">本报告由 GitHub Actions 自动抓取并生成，每 6 小时更新一次</p>
+{footer_links}  <p style="margin-top:6px;opacity:0.6">本报告由 GitHub Actions 自动抓取并生成，每 8 小时更新一次（周一至周六）</p>
 </div>
 
 <script>
