@@ -1,6 +1,8 @@
 name: Update NGA Multi-Board News
 
 on:
+  push:
+    branches: [master]
   schedule:
     # Run every 2 hours (UTC: 0,2,4,...,22 → Beijing: 08,10,12,...,06)
     - cron: '0 */2 * * *'
