@@ -412,8 +412,8 @@ def build_html(board_data, now):
         cfg = bd["board_config"]
         footer_links += f'  <p>数据来源: <a href="https://ngabbs.com/thread.php?fid={cfg["fid"]}" target="_blank">{cfg["link_text"]} (fid={cfg["fid"]})</a></p>\n'
 
-    # Board names for subtitle
-    board_names_str = " + ".join(f'{bd["board_config"]["name"]}(fid={bd["board_config"]["fid"]})' for bd in board_data)
+    # Refresh time for subtitle
+    refresh_time_str = f"\u6700\u8fd1\u5237\u65b0: {time_str}"  # "最近刷新: HH:MM"
 
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -546,7 +546,7 @@ body{{font-family:"Microsoft YaHei","PingFang SC",-apple-system,BlinkMacSystemFo
     </div>
     <div class="header-info">
       <h1>NGA 综合速报</h1>
-      <div class="sub">{date_str} {weekday} | {board_names_str}</div>
+      <div class="sub">{date_str} {weekday} | {refresh_time_str}</div>
     </div>
     <div class="header-stats">
       <div class="header-stat"><div class="val">{total_topics}</div><div class="label">热点话题</div></div>
@@ -567,7 +567,7 @@ body{{font-family:"Microsoft YaHei","PingFang SC",-apple-system,BlinkMacSystemFo
 
 <div class="footer">
   <p>NGA 综合速报 | 自动生成于 {now.strftime("%Y-%m-%d %H:%M")} (UTC+8)</p>
-{footer_links}  <p style="margin-top:6px;opacity:0.6">本报告由 GitHub Actions 自动抓取并生成，每 8 小时更新一次（周一至周六）</p>
+{footer_links}  <p style="margin-top:6px;opacity:0.6">本报告由 GitHub Actions 自动抓取并生成，每 2 小时更新一次</p>
 </div>
 
 <script>

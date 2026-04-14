@@ -2,8 +2,8 @@ name: Update NGA Multi-Board News
 
 on:
   schedule:
-    # Run every 8 hours Mon-Sat (UTC: 0:00, 8:00, 16:00 → Beijing: 08:00, 16:00, 00:00)
-    - cron: '0 0,8,16 * * 1-6'
+    # Run every 2 hours (UTC: 0,2,4,...,22 → Beijing: 08,10,12,...,06)
+    - cron: '0 */2 * * *'
   workflow_dispatch:  # Allow manual trigger
 
 permissions:
