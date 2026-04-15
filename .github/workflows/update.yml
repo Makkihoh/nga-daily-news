@@ -36,6 +36,7 @@ jobs:
         env:
           NGA_COOKIE: ${{ secrets.NGA_COOKIE }}
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/fetch_and_build.py
 
       - name: Verify output

@@ -19,6 +19,44 @@ import urllib.parse
 from datetime import datetime, timezone, timedelta
 
 # ── Config ──────────────────────────────────────────────────────────────────
+# 防重复：1小时内不重复执行（腾讯云触发器和GitHub schedule可能重叠）
+SKIP_IF_RECENT_HOURS = 1
+
+
+def check_recent_run():
+    """Check if a workflow run already happened within SKIP_IF_RECENT_HOURS hours.
+    Returns True if we should skip this run to avoid duplicate DeepSeek calls."""
+    token = os.environ.get("GITHUB_TOKEN", "")
+    if not token:
+        return False  # No token, can't check, proceed normally
+
+    api_url = "https://api.github.com/repos/Makkihoh/nga-daily-news/actions/runs?per_page=1"
+    req = urllib.request.Request(api_url)
+    req.add_header("Authorization", f"Bearer {token}")
+    req.add_header("Accept", "application/vnd.github+json")
+
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            runs = data.get("workflow_runs", [])
+            if not runs:
+                return False
+            last_run = runs[0]
+            # Parse the created_at timestamp
+            created_at_str = last_run.get("created_at", "")
+            if not created_at_str:
+                return False
+            last_time = datetime.fromisoformat(created_at_str.replace("Z", "+00:00"))
+            now = datetime.now(timezone.utc)
+            diff = now - last_time
+            hours = diff.total_seconds() / 3600
+            print(f"[DEDUP] Last workflow run: {last_run.get('created_at')} ({hours:.1f}h ago), status: {last_run.get('status')}")
+            if hours < SKIP_IF_RECENT_HOURS and last_run.get("status") == "completed":
+                print(f"[DEDUP] Skipping — last run was {hours:.1f}h ago (< {SKIP_IF_RECENT_HOURS}h)")
+                return True
+    except Exception as e:
+        print(f"[DEDUP] Could not check recent runs: {e}")
+    return False
 BOARDS = [
     {"fid": 843, "name": "国际新闻", "icon": "🌍", "section_title": "国际局势摘要",
      "link_text": "NGA 国际新闻杂谈板块"},
@@ -610,6 +648,15 @@ def main():
     now = datetime.now(timezone(timedelta(hours=8)))
     print(f"=== NGA Multi-Board News Builder === {now.strftime('%Y-%m-%d %H:%M')} UTC+8")
     print(f"Boards: {', '.join(f'fid={b['fid']} ({b['name']})' for b in BOARDS)}")
+
+    # Anti-duplicate: skip if a run already happened within the last hour
+    # This prevents both GitHub schedule and Tencent Cloud trigger from
+    # both firing at the same time and wasting DeepSeek tokens.
+    print("\n[STEP 0] Checking for recent workflow runs...")
+    if check_recent_run():
+        print("=== SKIPPING: recent run detected, no DeepSeek token will be spent ===")
+        return
+    print("[STEP 0] No recent run found, proceeding...\n")
 
     if not NGA_COOKIE:
         print("WARNING: NGA_COOKIE not set. Requests may fail or return limited data.")
