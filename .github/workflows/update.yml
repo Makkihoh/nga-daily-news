@@ -4,8 +4,8 @@ on:
   push:
     branches: [master]
   schedule:
-    # Run every 2 hours (UTC: 0,2,4,...,22 → Beijing: 08,10,12,...,06)
-    - cron: '0 */2 * * *'
+    # GitHub schedule: every 6h as fallback (Tencent Cloud is primary, every 2h)
+    - cron: '0 0,6,12,18 * * *'
   workflow_dispatch:  # Allow manual trigger
 
 permissions:
