@@ -433,22 +433,26 @@ def build_html(board_data, now):
 
         tab_panels += f"""
 <div class="tab-panel" id="panel-{i}" style="display:{display}">
-  <div class="section-head"><div class="dot"></div>{cfg["icon"]} {cfg["name"]} · 今日要闻速览</div>
+  <div class="section-head"><div class="dot"></div>{cfg["icon"]} {cfg["name"]} \u00b7 今日要闻速览</div>
   <div class="overview">
     <h3>{cfg["section_title"]}</h3>
     <ul>
 {overview_items}    </ul>
   </div>
-  <div class="section-head"><div class="dot"></div>热帖详情 &amp; 精选评论（{len(threads)} 条 · {board_replies} 讨论）</div>
+  <div class="section-head"><div class="dot"></div>热帖详情 &amp; 精选评论（{len(threads)} 条 \u00b7 {board_replies} 讨论）</div>
+  <div class="cards-list">
   {cards}
+  </div>
 </div>
 """
 
-    # Build footer links
+    # Build footer links (inline style)
     footer_links = ""
+    link_items = []
     for bd in board_data:
         cfg = bd["board_config"]
-        footer_links += f'  <p>数据来源: <a href="https://ngabbs.com/thread.php?fid={cfg["fid"]}" target="_blank">{cfg["link_text"]} (fid={cfg["fid"]})</a></p>\n'
+        link_items.append(f'<a href="https://ngabbs.com/thread.php?fid={cfg["fid"]}" target="_blank">{cfg["link_text"]}</a>')
+    footer_links = f'  <div class="src-links">{" · ".join(link_items)}</div>\n'
 
     # Refresh time for subtitle
     refresh_time_str = f"\u6700\u8fd1\u5237\u65b0: {time_str}"  # "最近刷新: HH:MM"
@@ -504,7 +508,7 @@ body{{font-family:"Microsoft YaHei","PingFang SC",-apple-system,BlinkMacSystemFo
 .tab-nav-inner{{max-width:880px;margin:0 auto;padding:0 16px;display:flex;gap:0}}
 .board-tab{{padding:10px 20px;font-size:14px;color:var(--text-dim);background:var(--tab-bg);border:1px solid var(--border);border-bottom:none;border-radius:6px 6px 0 0;cursor:pointer;margin-right:-1px;position:relative;top:1px;transition:all .2s;user-select:none}}
 .board-tab:hover{{background:#DDD6C0;color:var(--text)}}
-.board-tab.active{{background:var(--row-white);color:var(--accent-dark);font-weight:700;border-bottom:1px solid var(--row-white);z-index:1}}
+.board-tab.active{{background:var(--row-white);color:var(--accent-dark);font-weight:700;border-bottom:1px solid var(--row-white);z-index:1;box-shadow:inset 0 2px 0 var(--accent)}}
 .board-tab .tab-count{{font-size:11px;color:var(--text-muted);font-weight:400}}
 
 /* === CONTENT === */
@@ -515,62 +519,77 @@ body{{font-family:"Microsoft YaHei","PingFang SC",-apple-system,BlinkMacSystemFo
 
 .overview{{background:var(--row-white);border:1px solid var(--border-light);border-radius:6px;padding:20px 22px;margin-bottom:20px}}
 .overview h3{{font-size:14px;color:var(--accent-dark);margin-bottom:10px;font-weight:700;padding-bottom:8px;border-bottom:1px solid var(--border-light)}}
-.overview ul{{list-style:none;padding:0}}
+.overview ul{{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:2px 20px}}
 .overview li{{padding:4px 0 4px 18px;position:relative;font-size:13px;color:var(--text-dim);line-height:1.8}}
 .overview li::before{{content:'\\25B8';position:absolute;left:2px;color:var(--warm);font-size:11px}}
 .overview li strong{{color:var(--text)}}
 
-/* Cards */
-.card{{border:1px solid var(--border-light);border-radius:6px;margin-bottom:10px;overflow:hidden;transition:all .2s;background:var(--row-white)}}
-.card:hover{{border-color:var(--accent);box-shadow:0 2px 8px rgba(72,106,132,0.12);background:var(--card-hover)}}
-.card-inner{{padding:18px 20px}}
-.card-top{{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}}
-.rank{{min-width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;border:1px solid}}
-.rank.r1,.rank.r2,.rank.r3{{background:#FFF0F0;color:var(--hot);border-color:#FFCCCC}}
-.rank.normal{{background:var(--row-tint);color:var(--accent);border-color:var(--border)}}
-.card-title{{font-size:15px;font-weight:700;color:var(--text);line-height:1.5;flex:1}}
+/* Cards — V2: systematic 12px gap, 3-tier rank, title clamp, unified hover */
+.cards-list{{display:flex;flex-direction:column;gap:12px}}
+.card{{border:1px solid var(--border-light);border-radius:6px;overflow:hidden;transition:box-shadow .2s,border-color .2s,transform .2s;background:var(--row-white)}}
+.card:hover{{border-color:var(--accent);box-shadow:0 4px 16px rgba(72,106,132,0.13);transform:translateY(-2px)}}
+.card-inner{{padding:16px 20px;display:flex;flex-direction:column;gap:10px}}
+.card-top{{display:flex;align-items:flex-start;gap:12px}}
+.rank{{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;line-height:1}}
+.rank.r1{{background:var(--warm);color:#fff}}
+.rank.r2,.rank.r3{{background:var(--hot);color:#fff}}
+.rank.normal{{background:var(--row-tint);color:var(--accent);border:1px solid var(--border-light)}}
+.card-title{{font-size:16px;font-weight:700;color:var(--text);line-height:1.4;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 .card-title a{{color:var(--link);text-decoration:none}}
 .card-title a:hover{{color:var(--hot);text-decoration:underline}}
-.meta{{display:flex;gap:12px;font-size:12px;color:var(--text-muted);margin-bottom:10px;flex-wrap:wrap;align-items:center}}
+.meta{{display:flex;gap:12px;font-size:12px;color:var(--text-muted);flex-wrap:wrap;align-items:center}}
 .meta .replies{{color:var(--warm);font-weight:700}}
-.tags{{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}}
+.tags{{display:flex;gap:6px;flex-wrap:wrap}}
 .tag{{font-size:10.5px;padding:2px 9px;border-radius:3px;font-weight:600;letter-spacing:0.3px}}
-.tag.hot{{background:#FFE5E5;color:var(--hot);border:1px solid #FFCCCC}}
+.tag.hot{{color:var(--hot);font-weight:700;background:none;border:none;padding:0}}
 .tag.warm{{background:#FFF2DC;color:var(--warm);border:1px solid #F0D8A8}}
 .tag.blue{{background:rgba(72,106,132,0.08);color:var(--accent);border:1px solid rgba(72,106,132,0.2)}}
 .tag.green{{background:#E5F3E8;color:var(--green);border:1px solid #B8D8BE}}
 
-.summary{{font-size:13px;color:var(--text-dim);line-height:1.85;padding:12px 14px;background:var(--row-tint);border-radius:4px;border-left:3px solid var(--border)}}
+/* Summary — left-border + subtle bg for container feel */
+.summary{{font-size:13px;color:var(--text-dim);line-height:1.85;padding:10px 14px;border-left:3px solid var(--accent);background:rgba(72,106,132,0.03);border-radius:0 4px 4px 0}}
 .summary .key-point{{color:var(--text);font-weight:700}}
 
-.comments-toggle{{margin-top:8px}}
-.comments-toggle summary{{cursor:pointer;font-size:12px;color:var(--accent);padding:6px 12px;border-radius:4px;background:var(--row-tint);border:1px solid var(--border-light);transition:all .15s;user-select:none;list-style:none;display:flex;align-items:center;gap:6px}}
+/* Comments — fadeIn animation (details doesn't support max-height transition reliably) */
+.comments-toggle{{margin-top:2px}}
+.comments-toggle summary{{cursor:pointer;font-size:12px;color:var(--accent);padding:7px 12px;border-radius:4px;background:var(--row-tint);border:1px solid var(--border-light);transition:all .15s;user-select:none;list-style:none;display:flex;align-items:center;gap:6px}}
 .comments-toggle summary::-webkit-details-marker{{display:none}}
 .comments-toggle summary::before{{content:'';display:inline-block;width:0;height:0;border-left:5px solid var(--accent);border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;transition:transform .2s;flex-shrink:0}}
 .comments-toggle[open] summary::before{{transform:rotate(90deg)}}
 .comments-toggle summary:hover{{background:#E8E0CC;border-color:var(--accent)}}
 .comments-toggle summary .comment-count{{font-size:10px;color:var(--text-muted);margin-left:auto}}
-.comments-body{{padding:10px 0 2px;animation:fadeIn .25s ease}}
+.comments-body{{padding:8px 0 2px;animation:fadeIn .25s ease}}
 @keyframes fadeIn{{from{{opacity:0;transform:translateY(-4px)}}to{{opacity:1;transform:translateY(0)}}}}
 
-.comment{{font-size:12.5px;color:var(--text-dim);padding:7px 10px;margin-bottom:4px;border-radius:4px;background:var(--row-white);border:1px solid var(--border-light);border-left:3px solid var(--border);line-height:1.6;position:relative;padding-right:48px}}
+.comment{{font-size:12.5px;color:var(--text-dim);padding:7px 10px;margin-bottom:4px;border-radius:4px;background:var(--row-white);border:1px solid var(--border-light);border-left:3px solid var(--border);line-height:1.6;position:relative;padding-right:48px;transition:background .15s,border-color .15s}}
 .comment .score{{position:absolute;top:7px;right:8px;font-size:10px;color:var(--accent);font-weight:700}}
 .comment:hover{{background:var(--row-tint);border-left-color:var(--accent)}}
-.comment .cnum{{font-size:10px;color:var(--text-muted);opacity:0.6;margin-right:5px}}
+.comment .cnum{{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--row-tint);border:1px solid var(--border-light);font-size:9px;color:var(--text-muted);margin-right:6px;flex-shrink:0;vertical-align:middle}}
 
-.no-comments{{font-size:12px;color:var(--text-muted);opacity:0.6;padding:8px 14px;margin-top:8px;font-style:italic}}
+/* No-comments — amber warning style */
+.no-comments{{font-size:12px;color:#B8540F;padding:8px 12px;background:#FFF8F0;border:1px solid #F5D8B0;border-radius:4px;display:inline-flex;align-items:center;gap:5px;margin-top:4px}}
 
-.footer{{text-align:center;padding:28px 20px;color:var(--text-muted);font-size:11px;border-top:1px solid var(--border);letter-spacing:0.3px;background:var(--tab-bg)}}
+.footer{{text-align:center;padding:20px 16px;color:var(--text-muted);font-size:11px;border-top:1px solid var(--border);letter-spacing:0.3px;background:var(--tab-bg);line-height:1.8}}
 .footer a{{color:var(--link);text-decoration:none}}
 .footer a:hover{{text-decoration:underline}}
-.footer p+p{{margin-top:3px}}
+.footer p+p{{margin-top:2px}}
+.footer .src-links{{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:4px 0}}
 
+@media(max-width:768px){{
+  .overview ul{{grid-template-columns:1fr}}
+  .header-stats{{gap:10px}}
+  .header-stat{{padding:8px 12px;min-width:62px}}
+  .header-stat .val{{font-size:18px}}
+}}
 @media(max-width:640px){{
   .header-content{{flex-direction:column;text-align:center;gap:14px}}
   .header-stats{{justify-content:center}}
   .header-logo{{width:64px;height:64px}}
   .header-logo .nga-text{{font-size:18px}}
   .board-tab{{padding:8px 14px;font-size:13px}}
+  .card-title{{font-size:15px;-webkit-line-clamp:3}}
+  .card-inner{{padding:12px 14px;gap:8px}}
+  .footer .src-links{{flex-direction:column;gap:2px}}
 }}
 </style>
 </head>
@@ -584,7 +603,8 @@ body{{font-family:"Microsoft YaHei","PingFang SC",-apple-system,BlinkMacSystemFo
     </div>
     <div class="header-info">
       <h1>NGA 综合速报</h1>
-      <div class="sub">{date_str} {weekday} | {refresh_time_str}</div>
+      <div class="sub">{date_str} {weekday}</div>
+      <div class="sub" style="margin-top:2px;color:rgba(255,255,255,0.8);font-weight:600">\U0001f552 {refresh_time_str}</div>
     </div>
     <div class="header-stats">
       <div class="header-stat"><div class="val">{total_topics}</div><div class="label">热点话题</div></div>
@@ -617,7 +637,17 @@ function switchTab(idx) {{
     panels[i].style.display = 'none';
   }}
   tabs[idx].classList.add('active');
-  panels[idx].style.display = 'block';
+  var p = panels[idx];
+  p.style.display = 'block';
+  p.style.opacity = '0';
+  p.style.transform = 'translateY(6px)';
+  p.style.transition = 'opacity .25s ease, transform .25s ease';
+  requestAnimationFrame(function() {{
+    requestAnimationFrame(function() {{
+      p.style.opacity = '1';
+      p.style.transform = 'translateY(0)';
+    }});
+  }});
 }}
 </script>
 </body>
