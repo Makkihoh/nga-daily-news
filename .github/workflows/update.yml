@@ -4,8 +4,8 @@ on:
   push:
     branches: [master]
   schedule:
-    # GitHub schedule: every 6h as fallback (Tencent Cloud is primary, every 2h)
-    - cron: '0 0,6,12,18 * * *'
+    # Primary schedule: every 2h (anti-dup logic prevents wasted DeepSeek calls if Tencent Cloud also fires)
+    - cron: '0 */2 * * *'
   workflow_dispatch:  # Allow manual trigger
 
 permissions:

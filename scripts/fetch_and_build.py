@@ -30,7 +30,8 @@ def check_recent_run():
     if not token:
         return False  # No token, can't check, proceed normally
 
-    api_url = "https://api.github.com/repos/Makkihoh/nga-daily-news/actions/runs?per_page=1"
+    # Only check completed runs (exclude the current in_progress run)
+    api_url = "https://api.github.com/repos/Makkihoh/nga-daily-news/actions/runs?status=completed&per_page=1"
     req = urllib.request.Request(api_url)
     req.add_header("Authorization", f"Bearer {token}")
     req.add_header("Accept", "application/vnd.github+json")
@@ -50,9 +51,9 @@ def check_recent_run():
             now = datetime.now(timezone.utc)
             diff = now - last_time
             hours = diff.total_seconds() / 3600
-            print(f"[DEDUP] Last workflow run: {last_run.get('created_at')} ({hours:.1f}h ago), status: {last_run.get('status')}")
-            if hours < SKIP_IF_RECENT_HOURS and last_run.get("status") == "completed":
-                print(f"[DEDUP] Skipping — last run was {hours:.1f}h ago (< {SKIP_IF_RECENT_HOURS}h)")
+            print(f"[DEDUP] Last completed run: {last_run.get('created_at')} ({hours:.1f}h ago), conclusion: {last_run.get('conclusion')}")
+            if hours < SKIP_IF_RECENT_HOURS and last_run.get("conclusion") == "success":
+                print(f"[DEDUP] Skipping — last successful run was {hours:.1f}h ago (< {SKIP_IF_RECENT_HOURS}h)")
                 return True
     except Exception as e:
         print(f"[DEDUP] Could not check recent runs: {e}")
